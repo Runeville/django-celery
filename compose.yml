@@ -17,3 +17,18 @@ services:
       - ALLOWED_HOSTS=localhost,127.0.0.1
     depends_on:
       - redis
+  celery:
+    container_name: celery
+    build: 
+      context: ./dcelery
+    command: celery --app=dcelery worker --loglevel=info
+    volumes:
+      - ./dcelery:/usr/src/app/
+    ports:
+      - 8001:8001
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=secret
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    depends_on:
+      - redis
